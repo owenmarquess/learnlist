@@ -33,30 +33,105 @@
             <button type="submit">Login</button>
         </form>
     </div>
+
+    <div class="learnlist-container" style="display:none;">
+        <h2>Your Learnlist</h2>
+        <ul id="learnlist"></ul>
+        <h3>Add to Learnlist</h3>
+        <form id="learnlist-form">
+            <input type="text" id="learnlist-title" placeholder="Title" required>
+            <input type="text" id="learnlist-description" placeholder="Description" required>
+            <input type="url" id="learnlist-url" placeholder="URL" required>
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
     <script>
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const response = await fetch('http://localhost:3000/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
+            try {
+                const response = await fetch('http://localhost:3002/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
 
-            const data = await response.json();
-            if (data.auth) {
-                localStorage.setItem('token', data.token);
-                alert('Login successful');
-                window.location.href = 'membersList.html';
-            } else {
-                alert('Login failed');
+                const data = await response.json();
+                console.log('Response data:', data); // Log the response data
+                if (data.auth) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', data.username);
+                    console.log('Stored username:', localStorage.getItem('username')); // Log to verify storage
+                    alert('Login successful');
+                    displayLearnlist();
+                    document.querySelector('.login-container').style.display = 'none';
+                    document.querySelector('.learnlist-container').style.display = 'block';
+                } else {
+                    alert('Login failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while logging in. Please try again.');
             }
         });
+
+        document.getElementById('learnlist-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('learnlist-title').value;
+            const description = document.getElementById('learnlist-description').value;
+            const url = document.getElementById('learnlist-url').value;
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch('http://localhost:3002/learnlist', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, title, description, url })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+                displayLearnlist();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding to learnlist. Please try again.');
+            }
+        });
+
+        async function displayLearnlist() {
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch(`http://localhost:3002/learnlist?token=${token}`);
+                const learnlist = await response.json();
+                const learnlistContainer = document.getElementById('learnlist');
+                learnlistContainer.innerHTML = '';
+
+                learnlist.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<strong>${item.title}</strong>: ${item.description} (<a href="${item.url}" target="_blank">link</a>)`;
+                    learnlistContainer.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while fetching learnlist. Please try again.');
+            }
+        }
     </script>
+    <script src="app.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 

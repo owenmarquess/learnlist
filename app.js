@@ -1,11 +1,27 @@
-// app.js
 const menu = document.querySelector('#mobile-menu');
 const menuLinks = document.querySelector('.navbar__menu');
+const userDisplay = document.createElement('div');
+userDisplay.className = 'navbar__user';
 
-menu.addEventListener('click', function() {
+menu.addEventListener('click', function () {
     menu.classList.toggle('is-active');
     menuLinks.classList.toggle('active');
 });
+
+// Display username if logged in
+function displayUsername() {
+    const username = localStorage.getItem('username');
+    console.log('Stored username:', username); // Add this line for debugging
+    if (username && username !== "undefined") {
+        userDisplay.textContent = `Welcome, ${username}`;
+        document.querySelector('.navbar__container').appendChild(userDisplay);
+    }
+}
+
+// Call the function to display username on page load
+displayUsername();
+
+
 
 // Sample video data
 const videos = [
@@ -127,8 +143,4 @@ function displayNews(newsItems) {
 
 // Initial display of news
 displayNews(news);
-
-
-
-
 

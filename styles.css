@@ -27,6 +27,14 @@
   padding: 0 50px;
 }
 
+.navbar__user {
+  color: white;
+  font-size: 1.2rem; /* Adjust the font size if needed */
+  margin-left: auto; /* Ensure it is aligned to the right */
+  padding-right: 20px; /* Adjust padding to position it properly */
+}
+
+
 #navbar__logo {
   color: #ff8177;
   background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
@@ -347,6 +355,88 @@
   text-decoration: underline;
 }
 
+
+.learnlist-container {
+  background-color: #141414;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.learnlist-container h2, .learnlist-container h3 {
+  text-align: center;
+}
+
+.learnlist-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.learnlist-container li {
+  background: #1c1c1c;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.learnlist-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.learnlist-container input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  width: 80%;
+}
+
+.learnlist-container button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background: #f77062;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.learnlist-container button:hover {
+  background: #4837ff;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: #1c1c1c;
+  border-radius: 8px;
+  padding: 20px;
+  color: #fff;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.card a {
+  color: #f77062;
+  text-decoration: none;
+}
+
+.card a:hover {
+  text-decoration: underline;
+}
 
 
 

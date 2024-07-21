@@ -42,26 +42,28 @@
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('http://localhost:3002/register', { // Update the port here
+                const response = await fetch('http://localhost:3002/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, email, password })
                 });
 
                 const data = await response.json();
-                console.log(data); // Debugging line
+                console.log(data);
                 alert(data.message);
                 if (data.message === 'User registered!') {
                     window.location.href = 'Login.html';
                 }
             } catch (error) {
-                console.error('Error:', error); // Debugging line
+                console.error('Error:', error);
                 alert('An error occurred while registering. Please try again.');
             }
         });
     </script>
+    <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
