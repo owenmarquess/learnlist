@@ -6,6 +6,25 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Navbar Section -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="/" id="navbar__logo">CueSports Classroom</a>
+            <div class="navbar__toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+                <li class="navbar__item"><a href="/" class="navbar__links">Home</a></li>
+                <li class="navbar__item"><a href="/cueSports.html" class="navbar__links">Cue Sports</a></li>
+                <li class="navbar__item"><a href="/membersList.html" class="navbar__links">Members Lists</a></li>
+                <li class="navbar__item"><a href="Login.html" class="navbar__links">Log In</a></li>
+                <li class="navbar__btn"><a href="SignUp.html" class="button">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="signup-container">
         <h1>Sign Up</h1>
         <form id="signup-form">
@@ -22,19 +41,29 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const response = await fetch('http://localhost:3000/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email, password })
-            });
+            try {
+                const response = await fetch('http://localhost:3002/register', { // Update the port here
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
 
-            const data = await response.json();
-            alert(data.message);
-            if (data.message === 'User registered!') {
-                window.location.href = 'Login.html';
+                const data = await response.json();
+                console.log(data); // Debugging line
+                alert(data.message);
+                if (data.message === 'User registered!') {
+                    window.location.href = 'Login.html';
+                }
+            } catch (error) {
+                console.error('Error:', error); // Debugging line
+                alert('An error occurred while registering. Please try again.');
             }
         });
     </script>
 </body>
 </html>
+
+
+
+
 

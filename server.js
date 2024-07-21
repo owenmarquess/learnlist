@@ -7,7 +7,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ origin: 'http://127.0.0.1:5501' })); // Allow CORS for your frontend origin
 
 // Database connection
 const db = mysql.createConnection({
@@ -15,8 +15,8 @@ const db = mysql.createConnection({
     user: 'localhost1', // replace with your MySQL username
     password: 'Glenravel54!', // replace with your MySQL password
     database: 'learnlist_db' // replace with your actual database name
-});
 
+});
 
 db.connect((err) => {
     if (err) throw err;
@@ -26,11 +26,15 @@ db.connect((err) => {
 // Register user
 app.post('/register', (req, res) => {
     const { username, email, password } = req.body;
+    console.log(req.body); // Debugging line
     const hashedPassword = bcrypt.hashSync(password, 8);
 
     const query = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
     db.query(query, [username, email, hashedPassword], (err, result) => {
-        if (err) return res.status(500).send('Server error');
+        if (err) {
+            console.error('Error inserting user:', err); // Debugging line
+            return res.status(500).send('Server error');
+        }
         res.status(201).send({ message: 'User registered!' });
     });
 });
@@ -54,7 +58,10 @@ app.post('/login', (req, res) => {
 });
 
 // Start server
-const PORT = 3000;
+const PORT = 3002; // Change the port number here
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
