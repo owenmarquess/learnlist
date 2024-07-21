@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cue Sports</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styles for video and rules sections */
+        .video-section, .rules-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #141414;
+            color: #fff;
+        }
+        .video-section h2, .rules-section h2 {
+            margin: 20px 0;
+        }
+        .video-grid, .rules-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .video-card, .rules-card {
+            background: #1c1c1c;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .video-card iframe {
+            width: 100%;
+            height: 200px;
+        }
+        .video-card p, .rules-card p {
+            padding: 10px;
+        }
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filter-container input, .filter-container select {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Section -->
+    <nav class="navbar">
+        <div class="navbar__container">
+            <a href="/" id="navbar__logo">CueSports Classroom</a>
+            <div class="navbar__toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="navbar__menu">
+                <li class="navbar__item"><a href="/" class="navbar__links">Home</a></li>
+                <li class="navbar__item"><a href="/cueSports.html" class="navbar__links">Cue Sports</a></li>
+                <li class="navbar__item"><a href="/membersList.html" class="navbar__links">Members Lists</a></li>
+                <li class="navbar__item"><a href="Login.html" class="navbar__links">Log In</a></li>
+                <li class="navbar__btn"><a href="SignUp.html" class="button">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Video Section -->
+    <div class="video-section">
+        <h1>Learn About Cue Sports</h1>
+        <div class="filter-container">
+            <input type="text" id="search-bar" placeholder="Search for videos...">
+            <select id="category-filter">
+                <option value="all">All</option>
+                <option value="americanpool">American Pool</option>
+                <option value="englishpool">English Pool</option>
+                <option value="snooker">Snooker</option>
+                <option value="billiards">Billiards</option>
+            </select>
+        </div>
+        <div class="video-grid" id="video-grid">
+            <!-- Video cards will be inserted here dynamically -->
+        </div>
+    </div>
+
+    <!-- Rules Section -->
+    <div class="rules-section">
+        <h1>Rules of Cue Sports</h1>
+        <div class="rules-list">
+            <div class="rules-card">
+                <a href="https://bostonpoolloft.co.uk/wp-content/uploads/2017/11/American-Pool-Rules.pdf" target="_blank"><p>American Pool Rules</p></a>
+            </div>
+            <div class="rules-card">
+                <a href="https://cdn.ultimatepool.cloud.insysvt.com/International_8_Ball_Rules_1a_Feb2021_38fb4d6d68.pdf" target="_blank"><p>English Pool Rules</p></a>
+            </div>
+            <div class="rules-card">
+                <a href="https://wpbsa.com/wp-content/uploads/Rulebook-Website-Updated-May-2022-2.pdf" target="_blank"><p>Snooker Rules</p></a>
+            </div>
+            <div class="rules-card">
+                <a href="https://files.umb-carom.org/Public/Rules/Carom_Rules.pdf" target="_blank"><p>Billiards Rules</p></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
+
