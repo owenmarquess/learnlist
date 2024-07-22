@@ -21,18 +21,28 @@ function displayUsername() {
 // Call the function to display username on page load
 displayUsername();
 
-
+// Logout functionality
+const logoutButton = document.getElementById('logout-button');
+if (logoutButton) {
+    logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        alert('Logged out successfully');
+        document.querySelector('.login-container').style.display = 'block';
+        document.querySelector('.learnlist-container').style.display = 'none';
+    });
+}
 
 // Sample video data
 const videos = [
-    { title: "Introduction to Pool", category: "englishpool", url: "https://www.youtube.com/embed/VIDEO_ID_1" },
-    { title: "Pool Techniques for Beginners", category: "englishpool", url: "https://www.youtube.com/embed/VIDEO_ID_2" },
-    { title: "Snooker Basics", category: "snooker", url: "https://www.youtube.com/embed/VIDEO_ID_3" },
-    { title: "Advanced Snooker Techniques", category: "snooker", url: "https://www.youtube.com/embed/VIDEO_ID_4" },
-    { title: "Billiards for Beginners", category: "billiards", url: "https://www.youtube.com/embed/VIDEO_ID_5" },
-    { title: "Professional Billiards Tips", category: "billiards", url: "https://www.youtube.com/embed/VIDEO_ID_6" },
-    { title: "American Pool for Beginners", category: "americanpool", url: "https://www.youtube.com/embed/VIDEO_ID_7" },
-    { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/VIDEO_ID_8" }
+    { title: "Top Tips for English Pool Players", category: "englishpool", url: "https://www.youtube.com/embed/3GmLiK_Qwbc?start=72" },
+    { title: "How to Win a Game of Pool", category: "englishpool", url: "https://www.youtube.com/embed/zPSYPuBdEC4?start=87" },
+    { title: "Snooker Basics", category: "snooker", url: "https://www.youtube.com/embed/9ADf4MvQN_A" },
+    { title: "Advanced Snooker Techniques", category: "snooker", url: "https://www.youtube.com/embed/LevAyoxZQDg" },
+    { title: "Billiards - How to Play", category: "billiards", url: "https://www.youtube.com/embed/oulwP9N5D9s" },
+    { title: "Professional Billiards - Watch the Best", category: "billiards", url: "https://www.youtube.com/embed/G13Orva4DFw" },
+    { title: "American Pool for Beginners", category: "americanpool", url: "https://www.youtube.com/embed/WAr0maE00qA" },
+    { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/7raN6I_KTus" }
 ];
 
 const videoGrid = document.getElementById('video-grid');
@@ -143,4 +153,6 @@ function displayNews(newsItems) {
 
 // Initial display of news
 displayNews(news);
+
+
 

@@ -21,6 +21,7 @@
                 <li class="navbar__item"><a href="/membersList.html" class="navbar__links">Members Lists</a></li>
                 <li class="navbar__item"><a href="Login.html" class="navbar__links">Log In</a></li>
                 <li class="navbar__btn"><a href="SignUp.html" class="button">Sign Up</a></li>
+                <li class="navbar__item"><a href="#" class="navbar__links" id="logout-button">Log Out</a></li>
             </ul>
         </div>
     </nav>
@@ -47,6 +48,15 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                document.querySelector('.login-container').style.display = 'none';
+                document.querySelector('.learnlist-container').style.display = 'block';
+                displayLearnlist();
+            }
+        });
+
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
@@ -60,11 +70,9 @@
                 });
 
                 const data = await response.json();
-                console.log('Response data:', data); // Log the response data
                 if (data.auth) {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('username', data.username);
-                    console.log('Stored username:', localStorage.getItem('username')); // Log to verify storage
                     alert('Login successful');
                     displayLearnlist();
                     document.querySelector('.login-container').style.display = 'none';
@@ -120,10 +128,20 @@
                 alert('An error occurred while fetching learnlist. Please try again.');
             }
         }
+
+        // Logout functionality
+        document.getElementById('logout-button').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            alert('Logged out successfully');
+            document.querySelector('.login-container').style.display = 'block';
+            document.querySelector('.learnlist-container').style.display = 'none';
+        });
     </script>
     <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
