@@ -120,12 +120,31 @@
 
                 learnlist.forEach(item => {
                     const listItem = document.createElement('li');
-                    listItem.innerHTML = `<strong>${item.title}</strong>: ${item.description} (<a href="${item.url}" target="_blank">link</a>)`;
+                    listItem.innerHTML = `<strong>${item.title}</strong>: ${item.description} (<a href="${item.url}" target="_blank">link</a>) <button onclick="deleteLearnlistItem(${item.id})">Delete</button>`;
                     learnlistContainer.appendChild(listItem);
                 });
             } catch (error) {
                 console.error('Error:', error);
                 alert('An error occurred while fetching learnlist. Please try again.');
+            }
+        }
+
+        async function deleteLearnlistItem(itemId) {
+            const token = localStorage.getItem('token');
+
+            try {
+                const response = await fetch(`http://localhost:3002/learnlist/${itemId}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+                displayLearnlist();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while deleting learnlist item. Please try again.');
             }
         }
 
@@ -141,8 +160,6 @@
     <script src="app.js"></script>
 </body>
 </html>
-
-
 
 
 

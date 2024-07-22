@@ -66,6 +66,26 @@ app.post('/login', (req, res) => {
     });
 });
 
+// Fetch user's learnlist
+app.get('/learnlist', (req, res) => {
+    const token = req.query.token;
+
+    try {
+        const decoded = jwt.verify(token, 'secret');
+        const query = 'SELECT * FROM learnlist WHERE user_id = ?';
+        db.query(query, [decoded.id], (err, results) => {
+            if (err) {
+                console.error('Error fetching learnlist items:', err);
+                return res.status(500).send('Server error');
+            }
+            res.status(200).send(results);
+        });
+    } catch (err) {
+        console.error('Error verifying token:', err);
+        res.status(401).send('Unauthorized');
+    }
+});
+
 // Add learnlist item
 app.post('/learnlist', (req, res) => {
     const { token, title, description, url } = req.body;
@@ -79,6 +99,27 @@ app.post('/learnlist', (req, res) => {
                 return res.status(500).send('Server error');
             }
             res.status(201).send({ message: 'Learnlist item added!' });
+        });
+    } catch (err) {
+        console.error('Error verifying token:', err);
+        res.status(401).send('Unauthorized');
+    }
+});
+
+// Delete learnlist item
+app.delete('/learnlist/:id', (req, res) => {
+    const token = req.body.token;
+    const itemId = req.params.id;
+
+    try {
+        const decoded = jwt.verify(token, 'secret');
+        const query = 'DELETE FROM learnlist WHERE id = ? AND user_id = ?';
+        db.query(query, [itemId, decoded.id], (err, result) => {
+            if (err) {
+                console.error('Error deleting learnlist item:', err);
+                return res.status(500).send('Server error');
+            }
+            res.status(200).send({ message: 'Learnlist item deleted!' });
         });
     } catch (err) {
         console.error('Error verifying token:', err);
