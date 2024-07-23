@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <title>CueSports Classroom - Members Lists</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .user-learnlist {
+            margin-bottom: 20px;
+        }
+
+        .learnlist-items {
+            display: none;
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .learnlist-items li {
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        .learnlist-items.visible {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation bar -->
@@ -25,8 +47,10 @@
         </div>
     </nav>
 
-    <!-- Container where cards will be displayed dynamically -->
-    <div class="cards-container" id="cards-container"></div> 
+    <div class="main-content">
+        <h2>Look at what other members have saved!</h2>
+        <div class="cards-container" id="cards-container"></div> 
+    </div>
     
     <!-- JavaScript files for functionality -->
     <script>
@@ -44,16 +68,40 @@
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
 
+            const userLearnlists = {};
+
+            // Group learnlists by username
             learnlists.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <h3>${item.username}</h3>
-                    <h4>${item.title}</h4>
-                    <p>${item.description}</p>
-                    <a href="${item.url}" target="_blank">Watch Video</a>
+                if (!userLearnlists[item.username]) {
+                    userLearnlists[item.username] = [];
+                }
+                userLearnlists[item.username].push(item);
+            });
+
+            for (const username in userLearnlists) {
+                const userLearnlist = document.createElement('div');
+                userLearnlist.className = 'user-learnlist';
+                userLearnlist.innerHTML = `
+                    <h3 class="username" data-username="${username}">${username}</h3>
+                    <ul class="learnlist-items" id="${username}-learnlist">
+                        ${userLearnlists[username].map(item => `
+                            <li>
+                                <h4>${item.title}</h4>
+                                <p>${item.description}</p>
+                                <a href="${item.url}" target="_blank">Watch Video</a>
+                            </li>
+                        `).join('')}
+                    </ul>
                 `;
-                container.appendChild(card);
+                container.appendChild(userLearnlist);
+            }
+
+            // Add event listeners to toggle learnlist items
+            document.querySelectorAll('.username').forEach(element => {
+                element.addEventListener('click', () => {
+                    const learnlist = document.getElementById(`${element.dataset.username}-learnlist`);
+                    learnlist.classList.toggle('visible');
+                });
             });
         }
 
@@ -62,4 +110,6 @@
     </script>
 </body>
 </html>
+
+
 

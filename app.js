@@ -45,6 +45,8 @@ const videos = [
     { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/7raN6I_KTus" }
 ];
 
+
+
 const videoGrid = document.getElementById('video-grid');
 const searchBar = document.getElementById('search-bar');
 const categoryFilter = document.getElementById('category-filter');

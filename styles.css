@@ -425,6 +425,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.card p, .card a {
+  color: #fff; /* Ensure text and links inside the card are white */
+}
+
+
 .card h3 {
   margin-top: 0;
 }
