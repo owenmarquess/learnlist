@@ -4,6 +4,62 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styles for horizontal video grid */
+        .video-grid {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .video-card {
+            min-width: 300px;
+            flex: 0 0 auto;
+            background: #1c1c1c;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-card iframe {
+            width: 100%;
+            height: 200px;
+        }
+
+        .video-card p {
+            padding: 10px;
+            color: #fff;
+        }
+
+        .add-learnlist-btn {
+            padding: 10px;
+            background-color: #f77062;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+
+        .add-learnlist-btn:hover {
+            background-color: #4837ff;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-container input, .filter-container select {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar Section -->
@@ -45,6 +101,20 @@
             <input type="url" id="learnlist-url" placeholder="URL" required>
             <button type="submit">Add</button>
         </form>
+        
+        <!-- Video Section -->
+        <h2>Video Resources</h2>
+        <div class="filter-container">
+            <input type="text" id="search-bar-login" placeholder="Search for videos...">
+            <select id="category-filter-login">
+                <option value="all">All</option>
+                <option value="americanpool">American Pool</option>
+                <option value="englishpool">English Pool</option>
+                <option value="snooker">Snooker</option>
+                <option value="billiards">Billiards</option>
+            </select>
+        </div>
+        <div class="video-grid" id="video-grid-login"></div>
     </div>
 
     <script>
@@ -156,10 +226,96 @@
             document.querySelector('.login-container').style.display = 'block';
             document.querySelector('.learnlist-container').style.display = 'none';
         });
+
+        // Video display logic
+        const videos = [
+            { title: "Top Tips for English Pool Players", category: "englishpool", url: "https://www.youtube.com/embed/3GmLiK_Qwbc?start=72" },
+            { title: "How to Win a Game of Pool", category: "englishpool", url: "https://www.youtube.com/embed/zPSYPuBdEC4?start=87" },
+            { title: "Snooker Basics", category: "snooker", url: "https://www.youtube.com/embed/9ADf4MvQN_A" },
+            { title: "Advanced Snooker Techniques", category: "snooker", url: "https://www.youtube.com/embed/LevAyoxZQDg" },
+            { title: "Billiards - How to Play", category: "billiards", url: "https://www.youtube.com/embed/oulwP9N5D9s" },
+            { title: "Professional Billiards - Watch the Best", category: "billiards", url: "https://www.youtube.com/embed/G13Orva4DFw" },
+            { title: "American Pool for Beginners", category: "americanpool", url: "https://www.youtube.com/embed/WAr0maE00qA" },
+            { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/7raN6I_KTus" }
+        ];
+
+        const videoGridLogin = document.getElementById('video-grid-login');
+        const searchBarLogin = document.getElementById('search-bar-login');
+        const categoryFilterLogin = document.getElementById('category-filter-login');
+
+        function displayVideos(videosToDisplay, videoGridElement) {
+            if (videoGridElement) {
+                videoGridElement.innerHTML = '';
+                videosToDisplay.forEach(video => {
+                    const videoCard = document.createElement('div');
+                    videoCard.classList.add('video-card');
+                    videoCard.innerHTML = `
+                        <iframe src="${video.url}" frameborder="0" allowfullscreen></iframe>
+                        <p>${video.title}</p>
+                        <button class="add-learnlist-btn" onclick="addToLearnlist('${video.title}', '${video.url}')">Add to my learnlist</button>
+                    `;
+                    videoGridElement.appendChild(videoCard);
+                });
+            }
+        }
+
+        // Initial display
+        if (videoGridLogin) displayVideos(videos, videoGridLogin);
+
+        // Event listener for search bar
+        if (searchBarLogin) {
+            searchBarLogin.addEventListener('input', () => {
+                const searchTerm = searchBarLogin.value.toLowerCase();
+                const filteredVideos = videos.filter(video => video.title.toLowerCase().includes(searchTerm));
+                displayVideos(filteredVideos, videoGridLogin);
+            });
+        }
+
+        // Event listener for category filter
+        if (categoryFilterLogin) {
+            categoryFilterLogin.addEventListener('change', () => {
+                const selectedCategory = categoryFilterLogin.value;
+                const filteredVideos = selectedCategory === 'all' ? videos : videos.filter(video => video.category === selectedCategory);
+                displayVideos(filteredVideos, videoGridLogin);
+            });
+        }
+
+        // Filter videos based on query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryParam = urlParams.get('category');
+        if (categoryParam) {
+            if (categoryFilterLogin) categoryFilterLogin.value = categoryParam;
+            const filteredVideos = videos.filter(video => video.category === categoryParam);
+            if (videoGridLogin) displayVideos(filteredVideos, videoGridLogin);
+        }
+
+        // Add to learnlist functionality
+        async function addToLearnlist(title, url) {
+            const token = localStorage.getItem('token');
+            const description = 'Video added from video resources'; // Adjust the description as needed
+
+            try {
+                const response = await fetch('http://localhost:3002/learnlist', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, title, description, url })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+                displayLearnlist();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding to learnlist. Please try again.');
+            }
+        }
     </script>
     <script src="app.js"></script>
 </body>
 </html>
+
+
+
 
 
 

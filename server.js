@@ -127,7 +127,6 @@ app.delete('/learnlist/:id', (req, res) => {
     }
 });
 
-
 // Get learnlist items for a user
 app.get('/learnlist', (req, res) => {
     const token = req.query.token;
@@ -166,12 +165,12 @@ app.get('/all-learnlists', (req, res) => {
 });
 
 
-
 // Start server
 const PORT = 3002;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
 
 
 

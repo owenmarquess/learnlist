@@ -45,16 +45,17 @@ const videos = [
     { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/7raN6I_KTus" }
 ];
 
-
-
 const videoGrid = document.getElementById('video-grid');
+const videoGridLogin = document.getElementById('video-grid-login');
 const searchBar = document.getElementById('search-bar');
+const searchBarLogin = document.getElementById('search-bar-login');
 const categoryFilter = document.getElementById('category-filter');
+const categoryFilterLogin = document.getElementById('category-filter-login');
 
 // Function to display videos
-function displayVideos(videosToDisplay) {
-    if (videoGrid) {
-        videoGrid.innerHTML = '';
+function displayVideos(videosToDisplay, videoGridElement) {
+    if (videoGridElement) {
+        videoGridElement.innerHTML = '';
         videosToDisplay.forEach(video => {
             const videoCard = document.createElement('div');
             videoCard.classList.add('video-card');
@@ -62,20 +63,32 @@ function displayVideos(videosToDisplay) {
                 <iframe src="${video.url}" frameborder="0" allowfullscreen></iframe>
                 <p>${video.title}</p>
             `;
-            videoGrid.appendChild(videoCard);
+            if (window.location.pathname.includes('Login.html')) {
+                videoCard.innerHTML += `<button class="add-learnlist-btn" onclick="addToLearnlist('${video.title}', '${video.url}')">Add to my learnlist</button>`;
+            }
+            videoGridElement.appendChild(videoCard);
         });
     }
 }
 
 // Initial display
-displayVideos(videos);
+if (videoGrid) displayVideos(videos, videoGrid);
+if (videoGridLogin) displayVideos(videos, videoGridLogin);
 
 // Event listener for search bar
 if (searchBar) {
     searchBar.addEventListener('input', () => {
         const searchTerm = searchBar.value.toLowerCase();
         const filteredVideos = videos.filter(video => video.title.toLowerCase().includes(searchTerm));
-        displayVideos(filteredVideos);
+        displayVideos(filteredVideos, videoGrid);
+    });
+}
+
+if (searchBarLogin) {
+    searchBarLogin.addEventListener('input', () => {
+        const searchTerm = searchBarLogin.value.toLowerCase();
+        const filteredVideos = videos.filter(video => video.title.toLowerCase().includes(searchTerm));
+        displayVideos(filteredVideos, videoGridLogin);
     });
 }
 
@@ -84,7 +97,15 @@ if (categoryFilter) {
     categoryFilter.addEventListener('change', () => {
         const selectedCategory = categoryFilter.value;
         const filteredVideos = selectedCategory === 'all' ? videos : videos.filter(video => video.category === selectedCategory);
-        displayVideos(filteredVideos);
+        displayVideos(filteredVideos, videoGrid);
+    });
+}
+
+if (categoryFilterLogin) {
+    categoryFilterLogin.addEventListener('change', () => {
+        const selectedCategory = categoryFilterLogin.value;
+        const filteredVideos = selectedCategory === 'all' ? videos : videos.filter(video => video.category === selectedCategory);
+        displayVideos(filteredVideos, videoGridLogin);
     });
 }
 
@@ -93,8 +114,31 @@ const urlParams = new URLSearchParams(window.location.search);
 const categoryParam = urlParams.get('category');
 if (categoryParam) {
     if (categoryFilter) categoryFilter.value = categoryParam;
+    if (categoryFilterLogin) categoryFilterLogin.value = categoryParam;
     const filteredVideos = videos.filter(video => video.category === categoryParam);
-    displayVideos(filteredVideos);
+    if (videoGrid) displayVideos(filteredVideos, videoGrid);
+    if (videoGridLogin) displayVideos(filteredVideos, videoGridLogin);
+}
+
+// Add to learnlist functionality
+async function addToLearnlist(title, url) {
+    const token = localStorage.getItem('token');
+    const description = 'Video added from video resources'; // Adjust the description as needed
+
+    try {
+        const response = await fetch('http://localhost:3002/learnlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, title, description, url })
+        });
+
+        const data = await response.json();
+        alert(data.message);
+        displayLearnlist();
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while adding to learnlist. Please try again.');
+    }
 }
 
 // Carousel functionality for index.html
@@ -155,6 +199,8 @@ function displayNews(newsItems) {
 
 // Initial display of news
 displayNews(news);
+
+
 
 
 
