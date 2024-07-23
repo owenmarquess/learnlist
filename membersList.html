@@ -5,6 +5,12 @@
     <title>CueSports Classroom - Members Lists</title>
     <link rel="stylesheet" href="styles.css">
     <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Kumbh Sans', sans-serif;
+        }
+
         .user-learnlist {
             margin-bottom: 20px;
         }
@@ -16,7 +22,7 @@
         }
 
         .learnlist-items li {
-            background: #fff;
+            background: #1c1c1c;
             padding: 10px;
             border-radius: 4px;
             margin-bottom: 5px;
@@ -24,6 +30,71 @@
 
         .learnlist-items.visible {
             display: block;
+        }
+
+        .center-text {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .username {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .signup-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .signup-section button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #f77062;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .signup-section button:hover {
+            background: #4837ff;
+        }
+
+        .image-link-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .image-link {
+            text-align: center;
+            width: 15%;
+            position: sticky;
+            top: 0;
+        }
+
+        .image-link img {
+            width: 100%;
+            height: 90vh;
+            object-fit: cover;
+        }
+
+        .main-content {
+            width: 70%;
+            margin: 0 auto;
+        }
+
+        .learnlist-section {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .learnlist-section h3 {
+            color: #fff;
         }
     </style>
 </head>
@@ -47,9 +118,30 @@
         </div>
     </nav>
 
-    <div class="main-content">
-        <h2>Look at what other members have saved!</h2>
-        <div class="cards-container" id="cards-container"></div> 
+    <div class="image-link-section">
+        <div class="image-link">
+            <p>Buy your cues and equipment here</p>
+            <a href="https://www.cueandcase.co.uk/" target="_blank">
+                <img src="images/poolcues.jpeg" alt="Pool Cues">
+            </a>
+        </div>
+        <div class="main-content">
+            <h2 class="center-text">Look at what other members have saved!</h2>
+            <div class="center-text">Which list is your favorite?</div>
+            <div class="learnlist-section">
+                <div class="cards-container" id="cards-container"></div>
+            </div>
+            <div class="signup-section">
+                <p>You can make your own learnlist today by signing up here</p>
+                <button onclick="window.location.href='SignUp.html'">Sign Up</button>
+            </div>
+        </div>
+        <div class="image-link">
+            <p>Buy your cues and equipment here</p>
+            <a href="https://www.cueandcase.co.uk/" target="_blank">
+                <img src="images/poolcues.jpeg" alt="Pool Cues">
+            </a>
+        </div>
     </div>
     
     <!-- JavaScript files for functionality -->
@@ -82,7 +174,7 @@
                 const userLearnlist = document.createElement('div');
                 userLearnlist.className = 'user-learnlist';
                 userLearnlist.innerHTML = `
-                    <h3 class="username" data-username="${username}">${username}</h3>
+                    <h3 class="username" data-username="${username}">User ${username}</h3>
                     <ul class="learnlist-items" id="${username}-learnlist">
                         ${userLearnlists[username].map(item => `
                             <li>
@@ -110,6 +202,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 

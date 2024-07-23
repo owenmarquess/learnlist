@@ -197,6 +197,21 @@ function displayNews(newsItems) {
     }
 }
 
+// Fetch learnlists from the API
+async function fetchLearnlists() {
+    try {
+        const response = await fetch('http://localhost:4000/api/learnlists');
+        const learnlists = await response.json();
+        displayLearnlists(learnlists);
+    } catch (err) {
+        console.error('Error fetching learnlists:', err);
+    }
+}
+
+// Call the fetch function when the page loads
+document.addEventListener('DOMContentLoaded', fetchLearnlists);
+
+
 // Initial display of news
 displayNews(news);
 
