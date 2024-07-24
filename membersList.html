@@ -26,6 +26,7 @@
             padding: 10px;
             border-radius: 4px;
             margin-bottom: 5px;
+            position: relative;
         }
 
         .learnlist-items.visible {
@@ -96,6 +97,35 @@
         .learnlist-section h3 {
             color: #fff;
         }
+
+        .favorite-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: gold;
+        }
+
+        .favorite-icon.favorited {
+            color: yellow;
+        }
+
+        .rating {
+            display: flex;
+            gap: 5px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .rating .star {
+            cursor: pointer;
+            color: gray;
+        }
+
+        .rating .star.rated {
+            color: gold;
+        }
     </style>
 </head>
 <body>
@@ -143,8 +173,7 @@
             </a>
         </div>
     </div>
-    
-    <!-- JavaScript files for functionality -->
+
     <script>
         async function fetchAllLearnlists() {
             try {
@@ -155,21 +184,20 @@
                 console.error('Error fetching all learnlists:', error);
             }
         }
-
+    
         function displayLearnlists(learnlists) {
             const container = document.getElementById('cards-container');
             container.innerHTML = '';
-
+    
             const userLearnlists = {};
-
-            // Group learnlists by username
+    
             learnlists.forEach(item => {
                 if (!userLearnlists[item.username]) {
                     userLearnlists[item.username] = [];
                 }
                 userLearnlists[item.username].push(item);
             });
-
+    
             for (const username in userLearnlists) {
                 const userLearnlist = document.createElement('div');
                 userLearnlist.className = 'user-learnlist';
@@ -181,27 +209,82 @@
                                 <h4>${item.title}</h4>
                                 <p>${item.description}</p>
                                 <a href="${item.url}" target="_blank">Watch Video</a>
+                                <div class="rating" data-id="${item.id}">
+                                    ${[1, 2, 3, 4, 5].map(num => `
+                                        <span class="star" data-rating="${num}">&#9733;</span>
+                                    `).join('')}
+                                </div>
                             </li>
                         `).join('')}
                     </ul>
                 `;
                 container.appendChild(userLearnlist);
             }
-
-            // Add event listeners to toggle learnlist items
+    
             document.querySelectorAll('.username').forEach(element => {
                 element.addEventListener('click', () => {
                     const learnlist = document.getElementById(`${element.dataset.username}-learnlist`);
                     learnlist.classList.toggle('visible');
                 });
             });
-        }
 
-        // Fetch and display all learnlists on page load
+            document.querySelectorAll('.rating').forEach(ratingElement => {
+                ratingElement.addEventListener('click', async (event) => {
+                    if (event.target.classList.contains('star')) {
+                        const star = event.target;
+                        const learnlistId = ratingElement.dataset.id;
+                        const rating = star.dataset.rating;
+                        await rateLearnlist(learnlistId, rating);
+                        updateRatingDisplay(ratingElement, rating);
+                    }
+                });
+            });
+
+            async function rateLearnlist(learnlistId, rating) {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    alert('You need to be logged in to rate a learnlist.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('http://localhost:3002/rate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token, learnlistId, rating })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    alert(data.message);
+                } catch (error) {
+                    console.error('Error rating learnlist:', error);
+                    alert('An error occurred while rating. Please try again.');
+                }
+            }
+
+            function updateRatingDisplay(ratingElement, rating) {
+                const stars = ratingElement.querySelectorAll('.star');
+                stars.forEach(star => {
+                    if (star.dataset.rating <= rating) {
+                        star.classList.add('rated');
+                    } else {
+                        star.classList.remove('rated');
+                    }
+                });
+            }
+        }
+    
         fetchAllLearnlists();
     </script>
 </body>
 </html>
+
+
+
 
 
 

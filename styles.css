@@ -362,7 +362,8 @@
   padding: 20px;
   border-radius: 10px;
   width: 80%;
-  margin: 20px auto;
+  margin: 120px auto;
+  margin-top: 130px;
 }
 
 .learnlist-container h2, .learnlist-container h3 {
@@ -402,6 +403,7 @@
   color: white;
   border: none;
   cursor: pointer;
+  margin-bottom: 30px;
 }
 
 .learnlist-container button:hover {
@@ -453,6 +455,28 @@
 .logout-button {
   color: #fff;
   cursor: pointer;
+}
+
+.main__message {
+  text-align: left;
+  color: #fff;
+}
+
+.main__message h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.main__message h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+/* Ensure the container is flex */
+.main__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 

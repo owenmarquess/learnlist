@@ -28,13 +28,12 @@ db.connect((err) => {
 // Register user
 app.post('/register', (req, res) => {
     const { username, email, password } = req.body;
-    console.log(req.body); // Debugging line
     const hashedPassword = bcrypt.hashSync(password, 8);
 
     const query = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
     db.query(query, [username, email, hashedPassword], (err, result) => {
         if (err) {
-            console.error('Error inserting user:', err); // Debugging line
+            console.error('Error inserting user:', err);
             return res.status(500).send('Server error');
         }
         res.status(201).send({ message: 'User registered!' });
@@ -130,26 +129,6 @@ app.delete('/learnlist/:id', (req, res) => {
     }
 });
 
-// Get learnlist items for a user
-app.get('/learnlist', (req, res) => {
-    const token = req.query.token;
-
-    try {
-        const decoded = jwt.verify(token, 'secret');
-        const query = 'SELECT * FROM learnlist WHERE user_id = ?';
-        db.query(query, [decoded.id], (err, results) => {
-            if (err) {
-                console.error('Error fetching learnlist items:', err);
-                return res.status(500).send('Server error');
-            }
-            res.status(200).send(results);
-        });
-    } catch (err) {
-        console.error('Error verifying token:', err);
-        res.status(401).send('Unauthorized');
-    }
-});
-
 // Get all learnlist items
 app.get('/all-learnlists', (req, res) => {
     const query = `
@@ -168,11 +147,53 @@ app.get('/all-learnlists', (req, res) => {
 });
 
 
+// Add rating to a learnlist
+app.post('/rate', (req, res) => {
+    const { token, learnlistId, rating } = req.body;
+
+    try {
+        const decoded = jwt.verify(token, 'secret');
+        const query = 'INSERT INTO ratings (user_id, learnlist_id, rating) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE rating = VALUES(rating)';
+
+        db.query(query, [decoded.id, learnlistId, rating], (err, result) => {
+            if (err) {
+                console.error('Error inserting rating:', err);
+                return res.status(500).send('Server error');
+            }
+            res.status(201).send({ success: true, message: 'Rating submitted!' });
+        });
+    } catch (err) {
+        console.error('Error verifying token:', err);
+        res.status(401).send('Unauthorized');
+    }
+});
+
+// Get ratings for a learnlist
+app.get('/ratings', (req, res) => {
+    const { learnlistId } = req.query;
+
+    const query = 'SELECT rating FROM ratings WHERE learnlist_id = ?';
+
+    db.query(query, [learnlistId], (err, results) => {
+        if (err) {
+            console.error('Error fetching ratings:', err);
+            return res.status(500).send('Server error');
+        }
+
+        const ratings = results.map(result => result.rating);
+        const averageRating = ratings.length ? (ratings.reduce((a, b) => a + b) / ratings.length) : 0;
+        res.status(200).send({ averageRating, ratingsCount: ratings.length });
+    });
+});
+
 // Start server
 const PORT = 3002;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
 
 
 
