@@ -42,9 +42,7 @@ const videos = [
     { title: "Billiards - How to Play", category: "billiards", url: "https://www.youtube.com/embed/oulwP9N5D9s" },
     { title: "Professional Billiards - Watch the Best", category: "billiards", url: "https://www.youtube.com/embed/G13Orva4DFw" },
     { title: "American Pool for Beginners", category: "americanpool", url: "https://www.youtube.com/embed/WAr0maE00qA" },
-    { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/7raN6I_KTus" },
-    { title: "Who Was the Best of All Time?", category: "snooker", url: "https://www.youtube.com/embed/ne49CAlAvMY" },
-    { title: "Best Shots from The World Champs", category: "americanpool", url: "https://www.youtube.com/embed/yxVA-DpaTk4" }
+    { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/7raN6I_KTus" }
 ];
 
 const videoGrid = document.getElementById('video-grid');
@@ -125,12 +123,16 @@ if (categoryParam) {
 // Add to learnlist functionality
 async function addToLearnlist(title, url) {
     const token = localStorage.getItem('token');
+    const apiKey = localStorage.getItem('apiKey'); // Retrieve the API key from local storage
     const description = 'Video added from video resources'; // Adjust the description as needed
 
     try {
-        const response = await fetch('http://localhost:3002/learnlist', {
+        const response = await fetch('http://localhost:3004/learnlist', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey // Include the API key in the request header
+            },
             body: JSON.stringify({ token, title, description, url })
         });
 
@@ -140,6 +142,29 @@ async function addToLearnlist(title, url) {
     } catch (error) {
         console.error('Error:', error);
         alert('An error occurred while adding to learnlist. Please try again.');
+    }
+}
+
+// Save learnlist functionality
+async function saveLearnlist(title, description, url) {
+    const token = localStorage.getItem('token');
+    const apiKey = localStorage.getItem('apiKey'); // Retrieve the API key from local storage
+
+    try {
+        const response = await fetch('http://localhost:3004/save-learnlist', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey // Include the API key in the request header
+            },
+            body: JSON.stringify({ token, title, description, url })
+        });
+
+        const data = await response.json();
+        alert(data.message);
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while saving the learnlist. Please try again.');
     }
 }
 
@@ -213,9 +238,9 @@ async function fetchLearnlists() {
 // Call the fetch function when the page loads
 document.addEventListener('DOMContentLoaded', fetchLearnlists);
 
-
 // Initial display of news
 displayNews(news);
+
 
 
 

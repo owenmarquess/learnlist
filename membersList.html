@@ -177,7 +177,7 @@
     <script>
         async function fetchAllLearnlists() {
             try {
-                const response = await fetch('http://localhost:3002/all-learnlists');
+                const response = await fetch('http://localhost:3004/all-learnlists');
                 const learnlists = await response.json();
                 displayLearnlists(learnlists);
             } catch (error) {
@@ -209,6 +209,7 @@
                                 <h4>${item.title}</h4>
                                 <p>${item.description}</p>
                                 <a href="${item.url}" target="_blank">Watch Video</a>
+                                <button onclick="saveLearnlist('${item.title}', '${item.url}')">Add to My Learnlist</button>
                                 <div class="rating" data-id="${item.id}">
                                     ${[1, 2, 3, 4, 5].map(num => `
                                         <span class="star" data-rating="${num}">&#9733;</span>
@@ -248,7 +249,7 @@
                 }
 
                 try {
-                    const response = await fetch('http://localhost:3002/rate', {
+                    const response = await fetch('http://localhost:3004/rate', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ token, learnlistId, rating })
@@ -279,9 +280,32 @@
         }
     
         fetchAllLearnlists();
+
+        async function saveLearnlist(title, url) {
+            const token = localStorage.getItem('token');
+            const description = 'Link added from members list'; // Adjust the description as needed
+
+            try {
+                const response = await fetch('http://localhost:3004/learnlist', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, title, description, url })
+                });
+
+                const data = await response.json();
+                alert(data.message);
+                displayLearnlist();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding to learnlist. Please try again.');
+            }
+        }
     </script>
 </body>
 </html>
+
+
+
 
 
 

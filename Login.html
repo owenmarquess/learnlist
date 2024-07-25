@@ -229,7 +229,6 @@
                 <a href="https://thepoolcoach.co.uk/2018/07/27/which-8ball-pool-rules-do-you-play/" class="learnlist-link">English pool rules - confusion</a>
                 <button class="learnlist-link-btn" onclick="addToLearnlist('Which Rule is it?!', 'https://thepoolcoach.co.uk/2018/07/27/which-8ball-pool-rules-do-you-play/')">Add to my learnlist</button>
             </div>
-           
         </div>
     </div>
 
@@ -249,7 +248,7 @@
             const password = document.getElementById('password').value;
 
             try {
-                const response = await fetch('http://localhost:3002/login', {
+                const response = await fetch('http://localhost:3004/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
@@ -280,7 +279,7 @@
             const token = localStorage.getItem('token');
 
             try {
-                const response = await fetch('http://localhost:3002/learnlist', {
+                const response = await fetch('http://localhost:3004/learnlist', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token, title, description, url })
@@ -299,7 +298,7 @@
             const token = localStorage.getItem('token');
 
             try {
-                const response = await fetch(`http://localhost:3002/learnlist?token=${token}`);
+                const response = await fetch(`http://localhost:3004/learnlist?token=${token}`);
                 const learnlist = await response.json();
                 const learnlistContainer = document.getElementById('learnlist');
                 learnlistContainer.innerHTML = '';
@@ -319,7 +318,7 @@
             const token = localStorage.getItem('token');
 
             try {
-                const response = await fetch(`http://localhost:3002/learnlist/${itemId}`, {
+                const response = await fetch(`http://localhost:3004/learnlist/${itemId}`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token })
@@ -413,7 +412,7 @@
             const description = 'Link added from learnlist resources'; // Adjust the description as needed
 
             try {
-                const response = await fetch('http://localhost:3002/learnlist', {
+                const response = await fetch('http://localhost:3004/learnlist', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ token, title, description, url })
@@ -431,6 +430,10 @@
     <script src="app.js"></script>
 </body>
 </html>
+
+
+
+
 
 
 
