@@ -116,6 +116,33 @@
         .learnlist-container {
             margin-top: 30px; /* Added margin-top to move the section down */
         }
+
+        /* Styles for Learnlist links */
+        .learnlist-link {
+            color: #f77062;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .learnlist-link:hover {
+            text-decoration: underline;
+        }
+
+        .learnlist-link-btn {
+            padding: 10px;
+            background-color: #f77062;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .learnlist-link-btn:hover {
+            background-color: #4837ff;
+        }
     </style>
 </head>
 <body>
@@ -141,12 +168,12 @@
 
     <div class="login-container">
         <div class="login-form-container">
-        <h1>Login</h1>
-        <form id="login-form">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
+            <h1>Login</h1>
+            <form id="login-form">
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
         </div>
     </div>
 
@@ -174,6 +201,36 @@
             </select>
         </div>
         <div class="video-grid" id="video-grid-login"></div>
+
+        <!-- Learnlist Links Section -->
+        <h2>Learnlist Resources</h2>
+        <div class="learnlist-links">
+            <div>
+                <a href="https://billiards.colostate.edu/bd_articles/2021/june21.pdf" class="learnlist-link">How to care for your cue and equipment</a>
+                <button class="learnlist-link-btn" onclick="addToLearnlist('How to care for your cue and equipment', 'https://billiards.colostate.edu/bd_articles/2021/june21.pdf')">Add to my learnlist</button>
+            </div>
+            <div>
+                <a href="https://www.sporcle.com/games/g/snookerchamps" class="learnlist-link">Test your snooker knowledge</a>
+                <button class="learnlist-link-btn" onclick="addToLearnlist('Snooker World Champs Quiz', 'https://www.sporcle.com/games/g/snookerchamps')">Add to my learnlist</button>
+            </div>
+            <div>
+                <a href="https://www.homeleisuredirect.com/pool_tables/buying-advice/what-are-the-differences-between-various-types-of-pool-cue.html" class="learnlist-link">Snooker cue vs Pool cue</a>
+                <button class="learnlist-link-btn" onclick="addToLearnlist('Know Your Cues!', 'https://www.homeleisuredirect.com/pool_tables/buying-advice/what-are-the-differences-between-various-types-of-pool-cue.html')">Add to my learnlist</button>
+            </div>
+            <div>
+                <a href="https://blattbilliards.com/blogs/news/how-to-play-carom-billiards" class="learnlist-link">A guide to billiards</a>
+                <button class="learnlist-link-btn" onclick="addToLearnlist('A Beginners Guide to Billiards', 'https://blattbilliards.com/blogs/news/how-to-play-carom-billiards')">Add to my learnlist</button>
+            </div>
+            <div>
+                <a href="https://billiards.colostate.edu/resource_files/nineball.pdf" class="learnlist-link">A clinic in 9 Ball</a>
+                <button class="learnlist-link-btn" onclick="addToLearnlist('A Complete Guide to American Pool', 'https://billiards.colostate.edu/resource_files/nineball.pdf')">Add to my learnlist</button>
+            </div>
+            <div>
+                <a href="https://thepoolcoach.co.uk/2018/07/27/which-8ball-pool-rules-do-you-play/" class="learnlist-link">English pool rules - confusion</a>
+                <button class="learnlist-link-btn" onclick="addToLearnlist('Which Rule is it?!', 'https://thepoolcoach.co.uk/2018/07/27/which-8ball-pool-rules-do-you-play/')">Add to my learnlist</button>
+            </div>
+           
+        </div>
     </div>
 
     <script>
@@ -353,7 +410,7 @@
         // Add to learnlist functionality
         async function addToLearnlist(title, url) {
             const token = localStorage.getItem('token');
-            const description = 'Video added from video resources'; // Adjust the description as needed
+            const description = 'Link added from learnlist resources'; // Adjust the description as needed
 
             try {
                 const response = await fetch('http://localhost:3002/learnlist', {
@@ -374,6 +431,9 @@
     <script src="app.js"></script>
 </body>
 </html>
+
+
+
 
 
 
