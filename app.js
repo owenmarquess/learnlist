@@ -42,7 +42,9 @@ const videos = [
     { title: "Billiards - How to Play", category: "billiards", url: "https://www.youtube.com/embed/oulwP9N5D9s" },
     { title: "Professional Billiards - Watch the Best", category: "billiards", url: "https://www.youtube.com/embed/G13Orva4DFw" },
     { title: "American Pool for Beginners", category: "americanpool", url: "https://www.youtube.com/embed/WAr0maE00qA" },
-    { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/7raN6I_KTus" }
+    { title: "Professional American Pool Tips", category: "americanpool", url: "https://www.youtube.com/embed/7raN6I_KTus" },
+    { title: "Who Was the Best of All Time?", category: "snooker", url: "https://www.youtube.com/embed/ne49CAlAvMY" },
+    { title: "Best Shots from The World Champs", category: "americanpool", url: "https://www.youtube.com/embed/yxVA-DpaTk4" }
 ];
 
 const videoGrid = document.getElementById('video-grid');

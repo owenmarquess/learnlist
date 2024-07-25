@@ -5,8 +5,8 @@
     <title>Cue Sports</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Additional styles for video and rules sections */
-        .video-section, .rules-section {
+        /* Additional styles for video, rules, and famous players sections */
+        .video-section, .rules-section, .famous-players-section {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -14,38 +14,43 @@
             background-color: #141414;
             color: #fff;
         }
-        .video-section h2, .rules-section h2 {
+        .video-section h2, .rules-section h2, .famous-players-section h2 {
             margin: 20px 0;
         }
-        .video-grid, .rules-list {
+        .video-grid, .rules-list, .players-list {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 20px;
         }
-        .video-card, .rules-card {
+        .video-card, .rules-card, .player-card {
             background: #1c1c1c;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .video-card iframe {
+        .video-card iframe, .player-card img {
             width: 100%;
             height: 200px;
         }
-        .video-card p, .rules-card p {
+        .video-card p, .rules-card p, .player-card p {
             padding: 10px;
         }
-        .filter-container {
+        .player-card {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            flex-direction: row;
+            width: 400px;
         }
-        .filter-container input, .filter-container select {
+        .player-info {
             padding: 10px;
-            border: none;
-            border-radius: 4px;
+            flex: 1;
+        }
+        .player-card a {
+            color: #f77062;
+            text-decoration: none;
+        }
+        .player-card a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -63,7 +68,7 @@
                 <li class="navbar__item"><a href="/" class="navbar__links">Home</a></li>
                 <li class="navbar__item"><a href="/cueSports.html" class="navbar__links">Cue Sports</a></li>
                 <li class="navbar__item"><a href="/membersList.html" class="navbar__links">Members Lists</a></li>
-                <li class="navbar__item"><a href="Login.html" class="navbar__links">Log In</a></li>
+                <li class="navbar__item"><a href="Login.html" class="navbar__links">Your List</a></li>
                 <li class="navbar__btn"><a href="SignUp.html" class="button">Sign Up</a></li>
                 <li class="navbar__item"><a href="#" class="navbar__links" id="logout-button">Log Out</a></li>
             </ul>
@@ -72,7 +77,7 @@
 
     <!-- Video Section -->
     <div class="video-section">
-        <h1>Learn About Cue Sports</h1>
+        <h1>Login to Add Videos to Your Learnlist</h1>
         <div class="filter-container">
             <input type="text" id="search-bar" placeholder="Search for videos...">
             <select id="category-filter">
@@ -103,6 +108,62 @@
             </div>
             <div class="rules-card">
                 <a href="https://files.umb-carom.org/Public/Rules/Carom_Rules.pdf" target="_blank"><p>Billiards Rules</p></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Famous Players Section -->
+    <div class="famous-players-section">
+        <h1>Famous Players</h1>
+        <div class="players-list">
+            <!-- Player Card Template -->
+            <div class="player-card">
+                <img src="images/player1.png" alt="Player 1">
+                <div class="player-info">
+                    <p>Mark Allen</p>
+                    <p>NI's Best! Current World No.1</p>
+                    <a href="https://www.wst.tv/players/c37aba27-5b12-4fae-8a8b-9e749c7a25f3" target="_blank">See more</a>
+                </div>
+            </div>
+            <div class="player-card">
+                <img src="images/player2.png" alt="Player 2">
+                <div class="player-info">
+                    <p>Ronnie O'sullivan</p>
+                    <p>The Greatest of All Time?</p>
+                    <a href="https://www.wst.tv/players/226c7294-655e-4925-bcde-17330ddfc438" target="_blank">See more</a>
+                </div>
+            </div>
+            <div class="player-card">
+                <img src="images/player3.jpg" alt="Stephen Hendry">
+                <div class="player-info">
+                    <p>Stephen Hendry</p>
+                    <p>Snookers 90's King!</p>
+                    <a href="https://www.snooker.org/plr/bio/shendry.shtml" target="_blank">See more</a>
+                </div>
+            </div>
+            <div class="player-card">
+                <img src="images/player4.png" alt="Player 4">
+                <div class="player-info">
+                    <p>Fedor Gorst</p>
+                    <p>American Pools World No.1</p>
+                    <a href="https://en.wikipedia.org/wiki/Fedor_Gorst" target="_blank">See more</a>
+                </div>
+            </div>
+            <div class="player-card">
+                <img src="images/player5.jpg" alt="Player 5">
+                <div class="player-info">
+                    <p>Efren Reyes</p>
+                    <p>"The Magician" of Pool</p>
+                    <a href="https://en.wikipedia.org/wiki/Efren_Reyes" target="_blank">See more</a>
+                </div>
+            </div>
+            <div class="player-card">
+                <img src="images/player6.jpg" alt="Player 6">
+                <div class="player-info">
+                    <p>Dick Jaspers</p>
+                    <p>Billiards Best in the World</p>
+                    <a href="https://en.wikipedia.org/wiki/Dick_Jaspers" target="_blank">See more</a>
+                </div>
             </div>
         </div>
     </div>
