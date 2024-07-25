@@ -240,9 +240,3 @@ document.addEventListener('DOMContentLoaded', fetchLearnlists);
 
 // Initial display of news
 displayNews(news);
-
-
-
-
-
-
