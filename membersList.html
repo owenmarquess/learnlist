@@ -98,17 +98,7 @@
             color: #fff;
         }
 
-        .favorite-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: gold;
-        }
-
-        .favorite-icon.favorited {
-            color: yellow;
-        }
+      
 
         .rating {
             display: flex;
@@ -208,7 +198,7 @@
                             <li>
                                 <h4>${item.title}</h4>
                                 <p>${item.description}</p>
-                                <a href="${item.url}" target="_blank">Watch Video</a>
+                                <a href="${item.url}" target="_blank">See Here</a>
                                 <button onclick="saveLearnlist('${item.title}', '${item.url}')">Add to My Learnlist</button>
                                 <div class="rating" data-id="${item.id}">
                                     ${[1, 2, 3, 4, 5].map(num => `

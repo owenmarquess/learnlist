@@ -94,6 +94,11 @@
         .signup-form-container button:hover {
             background: #4837ff;
         }
+
+        .error {
+            color: red;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -110,7 +115,7 @@
                 <li class="navbar__item"><a href="/" class="navbar__links">Home</a></li>
                 <li class="navbar__item"><a href="/cueSports.html" class="navbar__links">Cue Sports</a></li>
                 <li class="navbar__item"><a href="/membersList.html" class="navbar__links">Members Lists</a></li>
-                <li class="navbar__item"><a href="Login.html" class="navbar__links">Your List</a></li>
+                <li class="navbar__item"><a href="Login.html" class="navbar__links">Log In</a></li>
                 <li class="navbar__btn"><a href="SignUp.html" class="button">Sign Up</a></li>
             </ul>
         </div>
@@ -121,8 +126,13 @@
             <h1>Sign Up</h1>
             <form id="signup-form">
                 <input type="text" id="username" placeholder="Username" required>
+                <span id="username-error" class="error"></span>
                 <input type="email" id="email" placeholder="Email" required>
+                <span id="email-error" class="error"></span>
                 <input type="password" id="password" placeholder="Password" required>
+                <span id="password-error" class="error"></span>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                <span id="confirm-password-error" class="error"></span>
                 <button type="submit">Sign Up</button>
             </form>
         </div>
@@ -152,9 +162,36 @@
     <script>
         document.getElementById('signup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // Clear previous errors
+            document.getElementById('username-error').textContent = '';
+            document.getElementById('email-error').textContent = '';
+            document.getElementById('password-error').textContent = '';
+            document.getElementById('confirm-password-error').textContent = '';
+
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            // Client-side validation
+            let isValid = true;
+            if (!username) {
+                document.getElementById('username-error').textContent = 'Username cannot be blank';
+                isValid = false;
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('email-error').textContent = 'Invalid email format';
+                isValid = false;
+            }
+            if (password !== confirmPassword) {
+                document.getElementById('confirm-password-error').textContent = 'Passwords do not match';
+                isValid = false;
+            }
+            if (!isValid) {
+                return;
+            }
 
             try {
                 const response = await fetch('http://localhost:3004/register', {
@@ -167,6 +204,7 @@
                 console.log(data);
                 alert(data.message);
                 if (data.message === 'User registered!') {
+                    localStorage.setItem('apiKey', data.apiKey); // Store API key in local storage
                     window.location.href = 'Login.html';
                 }
             } catch (error) {
@@ -178,5 +216,8 @@
     <script src="app.js"></script>
 </body>
 </html>
+
+
+
 
 

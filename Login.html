@@ -41,7 +41,7 @@
             cursor: pointer;
             width: 100%;
             text-align: center;
-            margin-bottom: 20px; /* Increased margin-bottom to create a larger gap */
+            margin-bottom: 20px; 
         }
 
         .add-learnlist-btn:hover {
@@ -409,7 +409,7 @@
         // Add to learnlist functionality
         async function addToLearnlist(title, url) {
             const token = localStorage.getItem('token');
-            const description = 'Link added from learnlist resources'; // Adjust the description as needed
+            const description = 'Link added from learnlist resources'; 
 
             try {
                 const response = await fetch('http://localhost:3004/learnlist', {
